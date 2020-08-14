@@ -12,7 +12,7 @@ class Api {
     return decode(response);
   }
 
-  decode(http.Response response) async{
+  decode(http.Response response) async {
     if (response.statusCode == 200) {
       var decoded = json.decode(response.body);
       List<Video> videos = decoded["items"].map<Video>((item) {
@@ -30,11 +30,10 @@ class Api {
 
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
-      return body[1].map((item){
+      return body[1].map((item) {
         return item[0];
       }).toList();
-    }else{
-      return [];
     }
+    return [];
   }
 }
