@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_favorites/screens/home.dart';
 
-void main(){
+void main() {
   runApp(MaterialApp(
-    home: Container(),
+    home: Home(),
   ));
 }
