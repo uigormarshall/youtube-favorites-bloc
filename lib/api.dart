@@ -2,12 +2,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:youtube_favorites/models/video.dart';
 
-const API_KEY = "yourKey";
+const API_KEY = "AIzaSyC1CxYpAvsyygNa9Rx6bQZyzCVdsYyPNJ0";
 
 class Api {
+  String _search, _nextPageToken;
+
   search(String search) async {
+    _search = search;
     final String url =
         "https://www.googleapis.com/youtube/v3/search?part=snippet&q=$search&type=video&key=$API_KEY&maxResults=10";
+    http.Response response = await http.get(url);
+    return decode(response);
+  }
+
+  nextPage() async {
+    final String url =
+        "https://www.googleapis.com/youtube/v3/search?part=snippet&q=$search&type=video&key=$API_KEY&maxResults=10&pageToken=$_nextPageToken";
     http.Response response = await http.get(url);
     return decode(response);
   }
@@ -15,6 +25,7 @@ class Api {
   decode(http.Response response) async {
     if (response.statusCode == 200) {
       var decoded = json.decode(response.body);
+      _nextPageToken = decoded["nextPageToken"];
       List<Video> videos = decoded["items"].map<Video>((item) {
         return Video.fromJson(item);
       }).toList();
